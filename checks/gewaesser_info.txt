@@ -1,0 +1,14 @@
+42140 Linienabschnitte, Geometrie: <StringArray>
+['LineString']
+Length: 1, dtype: str
+Spalten: ['gml_id', 'gewaessernummer', 'gewaessername', 'rechtsstatus_txt', 'rechtsstatus_code', 'auspraegung_txt', 'auspraegung_code', 'offen_eingedolt_txt', 'offen_eingedolt_code', 'parzelle_txt', 'parzelle_code', 'fliessgewaessertyp_txt', 'fliessgewaessertyp_code', 'bedeutung_txt', 'bedeutung_code', 'geodb_oid', 'geometry']
+
+                                     gml_id  gewaessernummer gewaessername             rechtsstatus_txt  rechtsstatus_code               auspraegung_txt  auspraegung_code offen_eingedolt_txt  offen_eingedolt_code        parzelle_txt  parzelle_code fliessgewaessertyp_txt  fliessgewaessertyp_code                                     bedeutung_txt  bedeutung_code  geodb_oid
+0  ogd-0045_giszhpub_wb_fliessgewaesser_l.1           1000.0         Rhein  öffentliches Fliessgewässer                  1                           NaN                 0                 NaN                     0                 NaN              0         Normalgewässer                        1  Gewässer von kantonaler und regionaler Bedeutung               1          1
+1  ogd-0045_giszhpub_wb_fliessgewaesser_l.2           1000.0         Rhein  öffentliches Fliessgewässer                  1  eingedolt mit Staatsparzelle                 3           eingedolt                     2  Mit Staatsparzelle              1         Normalgewässer                        1  Gewässer von kantonaler und regionaler Bedeutung               1          2
+2  ogd-0045_giszhpub_wb_fliessgewaesser_l.3           1000.0         Rhein  öffentliches Fliessgewässer                  1  eingedolt mit Staatsparzelle                 3           eingedolt                     2  Mit Staatsparzelle              1         Normalgewässer                        1  Gewässer von kantonaler und regionaler Bedeutung               1          3
+3  ogd-0045_giszhpub_wb_fliessgewaesser_l.4           1000.0         Rhein  öffentliches Fliessgewässer                  1  eingedolt mit Staatsparzelle                 3           eingedolt                     2  Mit Staatsparzelle              1         Normalgewässer                        1  Gewässer von kantonaler und regionaler Bedeutung               1          4
+4  ogd-0045_giszhpub_wb_fliessgewaesser_l.5           1000.0         Rhein  öffentliches Fliessgewässer                  1  eingedolt mit Staatsparzelle                 3           eingedolt                     2  Mit Staatsparzelle              1         Normalgewässer                        1  Gewässer von kantonaler und regionaler Bedeutung               1          5
+
+Punkte, an denen 2+ Linien ENDEN:   1239
+Punkte, an denen 2+ Linien BEGINNEN: 1491

@@ -1,0 +1,24 @@
+vergleich
+stimmt            607
+EZG ohne Namen    269
+nicht verfolgt    215
+abweichend         15
+
+Übereinstimmung: 98% von 622 vergleichbaren Quellen
+
+Beispiele für Abweichungen (Flurname | BAFU-Einzugsgebiet | unser Weg):
+  Weierbach | Waldibach | Gelände | Gontenbach|Sihl|Weierbach
+  Unterschlatterstrasse | Bolsternbach | Gelände | Eulach|HWE Eulach|Töss|Waltensteiner Eulach
+  Gsang | Furtbach | Gelände | Anwandelbach|Gsangbach|Schürhofbach|Tobelbach|Töss
+  Lütisgrund | Surebach | Gelände | Chrebsbach
+  Chüewald | Gruenhaldenbach | Gelände | Chüewaldbach
+  Juch | Furtbach | Gelände | Anwandelbach|Baabach|Tobelbach|Töss
+  Lütisgrund | Surebach | Gelände | Chrebsbach
+  Leisibüel | Furtbach | Gelände | Anwandelbach|Gsangbach|Tobelbach|Töss
+  Chüestelli | Gruenhaldenbach | Gelände | Chüestellibach|Tädikerbächli
+  Stumpenhölzimoos | Chrebsbach | Gelände | Schlegeltobelbach|Sihl
+  Schnabelweg, Summerhalden | Tobelbach | Gelände | Eichhölzlibach|Sihl|Tomenrainbach
+  Tannenboden | Lattenbach | Gelände | Hiltisbergerbach|Tannenbodenbächli
+  Boden | Lattenbach | Gelände | Bärenhölzlibach|Diezikonerbach|Hubertingerbach
+  Heubergbach, Vorbüel | Dorfbach | Gelände | Glatt|HWE Heubergbach|Heubergbach|Uessiker Schulhausbach
+  Lätten, Pfifferwis | Schuelhusbach | Gelände | Glatt|Rutlenbächli|Uessiker Schulhausbach

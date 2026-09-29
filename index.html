@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <title>Quellen im Kanton Zürich</title>
+    <style>
+        body {
+            margin: 0;
+            background: #f7f5f0;
+            font-family: sans-serif;
+        }
+
+        #tooltip {
+            position: absolute;
+            pointer-events: none;
+            background: white;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.4;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        #karte {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <svg id="karte" viewBox="0 0 1000 800"></svg>
+    <div id="tooltip"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const svg = d3.select("#karte");
+
+        Promise.all([
+            d3.json("seen.geojson"),
+            d3.json("baeche.geojson"),
+            d3.json("quellen.geojson"),
+        ]).then(([seen, baeche, quellen]) => {
+            const W = 1000;
+            const H = 800;
+
+            const projection = d3.geoIdentity()
+                .reflectY(true)
+                .fitSize([W, H], baeche);
+
+            const path = d3.geoPath(projection);
+
+            svg.append("g")
+                .attr("id", "seen")
+                .selectAll("path")
+                .data(seen.features)
+                .join("path")
+                .attr("d", path)
+                .attr("fill", "#1f5fa8")
+                .attr("stroke", "#1f5fa8")
+                .attr("stroke-width", 0.5);
+
+            const maxQuellen = d3.max(baeche.features, d => d.properties.quellen_oberhalb);
+            console.log("Maximum Quellen oberhalb:", maxQuellen);
+
+            const breite = d3.scaleLinear()
+                .domain([0, maxQuellen])
+                .range([0.3, 8]);
+
+            console.log("Breite bei 1 Quelle:", breite(1));
+            console.log("Breite beim Maximum:", breite(maxQuellen));
+
+            // dünne Bäche zuerst, damit die dicken obenauf liegen
+            baeche.features.sort((a, b) =>
+                a.properties.quellen_oberhalb - b.properties.quellen_oberhalb);
+
+            svg.append("g")
+                .attr("id", "baeche")
+                .selectAll("path")
+                .data(baeche.features)
+                .join("path")
+                .attr("d", path)
+                .attr("fill", "none")
+                .attr("stroke", "#1f5fa8")
+                .attr("stroke-linecap", "round")
+                .attr("stroke-width", d => breite(d.properties.quellen_oberhalb));
+
+            const farbe = d3.scaleOrdinal()
+                .domain(["Rhein", "Limmat", "Reuss", "Nachbarkanton", "kein Anschluss", "zu weit vom Bach"])
+                .range(["#2a9d8f", "#e76f51", "#8e44ad", "#e9c46a", "#bbbbbb", "#dddddd"]);
+
+            const tooltip = d3.select("#tooltip");
+
+            svg.append("g")
+                .attr("id", "quellen")
+                .selectAll("circle")
+                .data(quellen.features)
+                .join("circle")
+                .attr("cx", d => projection(d.geometry.coordinates)[0])
+                .attr("cy", d => projection(d.geometry.coordinates)[1])
+                .attr("r", 2.5)
+                .attr("fill", d => farbe(d.properties.ziel))
+                .attr("stroke", "white")
+                .attr("stroke-width", 0.4)
+                .on("mouseover", (event, d) => {
+                    d3.select(event.currentTarget).attr("r", 6);
+                    tooltip
+                        .style("opacity", 1)
+                        .html(`<strong>${d.properties.flurname ?? "Quelle"}</strong><br>→ ${d.properties.ziel}`);
+                })
+                .on("mousemove", (event) => {
+                    tooltip
+                        .style("left", (event.pageX + 12) + "px")
+                        .style("top", (event.pageY + 12) + "px");
+                })
+                .on("mouseout", (event) => {
+                    d3.select(event.currentTarget).attr("r", 2.5);
+                    tooltip.style("opacity", 0);
+                });
+
+
+
+            const beschriftung = {
+                "Rhein": "Rhein",
+                "Limmat": "Limmat",
+                "Reuss": "Reuss",
+                "Nachbarkanton": "verlässt den Kanton",
+                "kein Anschluss": "Weg unterbrochen",
+                "zu weit vom Bach": "kein Bach in der Nähe",
+            };
+            const legende = svg.append("g")
+                .attr("id", "legende")
+                .attr("transform", "translate(20, 30)");
+
+            legende.append("text")
+                .attr("font-size", 12)
+                .attr("font-weight", "bold")
+                .text("Quelle fliesst in …");
+
+            const eintraege = legende.selectAll("g")
+                .data(farbe.domain())
+                .join("g")
+                .attr("transform", (d, i) => `translate(0, ${20 + i * 18})`);
+
+            eintraege.append("circle")
+                .attr("cx", 5)
+                .attr("r", 5)
+                .attr("fill", d => farbe(d));
+
+            eintraege.append("text")
+                .attr("x", 16)
+                .attr("y", 4)
+                .attr("font-size", 12)
+                .text(d => beschriftung[d]);
+        });
+    </script>
+</body>
+
+</html>
