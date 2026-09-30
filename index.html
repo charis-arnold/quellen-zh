@@ -56,15 +56,32 @@
 
             const path = d3.geoPath(projection);
 
+            // Farben aus dem Aquarell
+            const WASSER_TIEF = "#003a8c";
+            const WASSER_MITTE = "#005f7d";
+            const WASSER_FLACH = "#006874";
+            const WASSER_RAND = "#002b87";
+
+            svg.append("defs")
+                .append("pattern")
+                .attr("id", "aquarell")
+                .attr("patternUnits", "userSpaceOnUse")   // Muster in Kartenkoordinaten
+                .attr("width", W)
+                .attr("height", H)
+                .append("image")
+                .attr("href", "bilder/fluss-aqua-1.jpg")
+                .attr("width", W)
+                .attr("height", H)
+                .attr("preserveAspectRatio", "xMinYMid slice");
+
+
             svg.append("g")
                 .attr("id", "seen")
                 .selectAll("path")
                 .data(seen.features)
                 .join("path")
                 .attr("d", path)
-                .attr("fill", "#1f5fa8")
-                .attr("stroke", "#1f5fa8")
-                .attr("stroke-width", 0.5);
+                .attr("fill", "url(#aquarell)");
 
             const maxQuellen = d3.max(baeche.features, d => d.properties.quellen_oberhalb);
             console.log("Maximum Quellen oberhalb:", maxQuellen);
@@ -72,6 +89,10 @@
             const breite = d3.scaleLinear()
                 .domain([0, maxQuellen])
                 .range([0.3, 8]);
+
+            const tiefe = d3.scaleSqrt()
+                .domain([0, maxQuellen])
+                .range([WASSER_FLACH, WASSER_TIEF]);
 
             console.log("Breite bei 1 Quelle:", breite(1));
             console.log("Breite beim Maximum:", breite(maxQuellen));
@@ -87,13 +108,14 @@
                 .join("path")
                 .attr("d", path)
                 .attr("fill", "none")
-                .attr("stroke", "#1f5fa8")
+                .attr("stroke", d => tiefe(d.properties.quellen_oberhalb))
                 .attr("stroke-linecap", "round")
                 .attr("stroke-width", d => breite(d.properties.quellen_oberhalb));
 
             const farbe = d3.scaleOrdinal()
                 .domain(["Rhein", "Limmat", "Reuss", "Nachbarkanton", "kein Anschluss", "zu weit vom Bach"])
-                .range(["#2a9d8f", "#e76f51", "#8e44ad", "#e9c46a", "#bbbbbb", "#dddddd"]);
+                // Dreiklang Zinnober – Magenta – Pflaume: warm, als Gegenpol zum blauen Wasser
+                .range(["#e4572e", "#b5367a", "#5e2a6e", "#e9c46a", "#888888", "#dddddd"]);
 
             const tooltip = d3.select("#tooltip");
 
@@ -106,7 +128,7 @@
                 .attr("cy", d => projection(d.geometry.coordinates)[1])
                 .attr("r", 2.5)
                 .attr("fill", d => farbe(d.properties.ziel))
-                .attr("stroke", "white")
+                .attr("stroke", "#f7f5f0")          // Hintergrundfarbe
                 .attr("stroke-width", 0.4)
                 .on("mouseover", (event, d) => {
                     d3.select(event.currentTarget).attr("r", 6);
@@ -135,7 +157,7 @@
                 .attr("text-anchor", "middle")
                 .attr("font-size", 13)
                 .attr("font-style", "italic")       // Kartenkonvention: Gewässer kursiv
-                .attr("fill", "#1f5fa8")
+                .attr("fill", WASSER_MITTE)
                 .attr("stroke", "#f7f5f0")          // Hintergrundfarbe als „Halo“
                 .attr("stroke-width", 3)
                 .attr("paint-order", "stroke")      // erst Kontur, dann Füllung
