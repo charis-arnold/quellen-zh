@@ -44,7 +44,9 @@
             d3.json("seen.geojson"),
             d3.json("baeche.geojson"),
             d3.json("quellen.geojson"),
-        ]).then(([seen, baeche, quellen]) => {
+            d3.json("beschriftung.geojson"),
+        ]).then(([seen, baeche, quellen, beschriftung]) => {
+
             const W = 1000;
             const H = 800;
 
@@ -122,9 +124,25 @@
                     tooltip.style("opacity", 0);
                 });
 
+            svg.append("g")
+                .attr("id", "beschriftung")
+                .selectAll("text")
+                .data(beschriftung.features)
+                .join("text")
+                .attr("x", d => projection(d.geometry.coordinates)[0])
+                .attr("y", d => projection(d.geometry.coordinates)[1])
+                .attr("dy", -8)                     // etwas über der Linie
+                .attr("text-anchor", "middle")
+                .attr("font-size", 13)
+                .attr("font-style", "italic")       // Kartenkonvention: Gewässer kursiv
+                .attr("fill", "#1f5fa8")
+                .attr("stroke", "#f7f5f0")          // Hintergrundfarbe als „Halo“
+                .attr("stroke-width", 3)
+                .attr("paint-order", "stroke")      // erst Kontur, dann Füllung
+                .text(d => d.properties.name);
 
 
-            const beschriftung = {
+            const legendenText = {
                 "Rhein": "Rhein",
                 "Limmat": "Limmat",
                 "Reuss": "Reuss",
@@ -155,7 +173,7 @@
                 .attr("x", 16)
                 .attr("y", 4)
                 .attr("font-size", 12)
-                .text(d => beschriftung[d]);
+                .text(d => legendenText[d]);
         });
     </script>
 </body>

@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"name": "beschriftung",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2056" } },
+"xy_coordinate_resolution": 1,
+"features": [
+{ "type": "Feature", "properties": { "name": "Glatt" }, "geometry": { "type": "Point", "coordinates": [ 2680328, 1260517 ] } },
+{ "type": "Feature", "properties": { "name": "Limmat" }, "geometry": { "type": "Point", "coordinates": [ 2676737, 1251103 ] } },
+{ "type": "Feature", "properties": { "name": "Rhein" }, "geometry": { "type": "Point", "coordinates": [ 2684962, 1268607 ] } },
+{ "type": "Feature", "properties": { "name": "Sihl" }, "geometry": { "type": "Point", "coordinates": [ 2681675, 1242153 ] } },
+{ "type": "Feature", "properties": { "name": "Töss" }, "geometry": { "type": "Point", "coordinates": [ 2703154, 1255361 ] } }
+]
+}
